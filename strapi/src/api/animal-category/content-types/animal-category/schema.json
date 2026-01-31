@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "animal_categories",
+  "info": {
+    "singularName": "animal-category",
+    "pluralName": "animal-categories",
+    "displayName": "Animal Category",
+    "description": "Kategorie zwierząt (konie, psy, krowy, etc.)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "mappedBy": "animalCategories"
+    },
+    "articles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "animalCategories"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article",
+    "description": "Artykuły/blogi"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title"
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "publishedAt": {
+      "type": "datetime"
+    },
+    "author": {
+      "type": "string"
+    },
+    "gallery": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "animalCategories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::animal-category.animal-category",
+      "inversedBy": "articles"
+    },
+    "products": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::product.product",
+      "inversedBy": "articles"
+    }
+  }
+}

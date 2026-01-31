@@ -1,0 +1,41 @@
+{
+  "kind": "collectionType",
+  "collectionName": "manufacturers",
+  "info": {
+    "singularName": "manufacturer",
+    "pluralName": "manufacturers",
+    "displayName": "Manufacturer",
+    "description": "Producenci produktów"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "website": {
+      "type": "string",
+      "required": false
+    },
+    "products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product",
+      "mappedBy": "manufacturer"
+    }
+  }
+}
