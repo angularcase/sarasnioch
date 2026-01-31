@@ -15,12 +15,13 @@ export class App implements OnInit {
   ngOnInit(): void {
     this.articleService.getArticles().subscribe({
       next: (response) => {
+        console.log('Full response:', response);
         console.log('Articles loaded:', {
-          total: response.meta.pagination.total,
-          articles: response.data.map(a => ({
-            id: a.id,
-            title: a.attributes.title,
-            slug: a.attributes.slug
+          total: response.meta?.pagination?.total || 0,
+          articles: (response.data || []).map(a => ({
+            id: a?.id,
+            title: a?.attributes?.title || 'No title',
+            slug: a?.attributes?.slug || 'no-slug'
           }))
         });
       },
