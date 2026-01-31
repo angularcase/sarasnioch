@@ -24,6 +24,7 @@ Artykuły/wpisy blogowe przypisane do kategorii zwierząt.
 | `author` | Text | Imię i nazwisko autora |
 | `gallery` | Media (wiele plików) | Galeria zdjęć do artykułu |
 | `animalCategories` | Relacja (wiele do wielu) | Powiązane kategorie zwierząt |
+| `products` | Relacja (wiele do wielu) | Powiązane produkty |
 
 ---
 
@@ -67,14 +68,17 @@ Produkty dla zwierząt.
     ┌────┴────┐
     │         │
     ▼         ▼
-┌───────┐  ┌─────────┐     ┌──────────────┐
-│Article│  │ Product │────►│ Manufacturer │
-└───────┘  └─────────┘     └──────────────┘
-              wiele             jeden
+┌───────┐◄───►┌─────────┐     ┌──────────────┐
+│Article│     │ Product │────►│ Manufacturer │
+└───────┘     └─────────┘     └──────────────┘
+  wiele        wiele            wiele   jeden
+  do wielu
 ```
 
 - Artykuł może mieć wiele kategorii zwierząt (np. artykuł o szczepieniach dotyczy psów i kotów)
+- Artykuł może mieć wiele powiązanych produktów (np. artykuł o odrobaczaniu linkuje do produktów na robaki)
 - Produkt może być przeznaczony dla wielu kategorii zwierząt (np. produkt dla psów, kotów i koni)
+- Produkt może być powiązany z wieloma artykułami
 - Kategoria zwierząt może być przypisana do wielu artykułów i wielu produktów
 - Produkt ma jednego producenta, producent może mieć wiele produktów
 
@@ -95,7 +99,8 @@ Produkty dla zwierząt.
 - Tytuł: "Szczepienia profilaktyczne u psów"
 - Slug: "szczepienia-profilaktyczne-u-psow"
 - Autor: "lek. wet. Jan Kowalski"
-- Kategorie: Psy
+- Kategorie zwierząt: Psy
+- Powiązane produkty: Nobivac DHPPi, Eurican DHPPI2
 - Treść: ...
 - Galeria: 3 zdjęcia
 
