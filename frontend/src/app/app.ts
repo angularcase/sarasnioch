@@ -1,29 +1,22 @@
-import { Component, signal, inject, OnInit } from '@angular/core';
+import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 import { ArticleService } from './core/services/article.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, ButtonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App implements OnInit {
+export class App {
   protected readonly title = signal('my-app');
   private articleService = inject(ArticleService);
 
-  ngOnInit(): void {
+  loadArticles(): void {
     this.articleService.getArticles().subscribe({
       next: (response) => {
-        console.log('Full response:', response);
-        console.log('Articles loaded:', {
-          total: response.meta?.pagination?.total || 0,
-          articles: (response.data || []).map(a => ({
-            id: a?.id,
-            title: a?.attributes?.title || 'No title',
-            slug: a?.attributes?.slug || 'no-slug'
-          }))
-        });
+        console.log('Articles loaded:', response);
       },
       error: (error) => {
         console.error('Error loading articles:', error);
