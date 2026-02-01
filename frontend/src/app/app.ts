@@ -2,10 +2,12 @@ import { Component, signal, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { ArticleService } from './core/services/article.service';
+import { MenuComponent } from './shared/menu/menu.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, ButtonModule],
+  imports: [RouterOutlet, ButtonModule, MenuComponent, FooterComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
