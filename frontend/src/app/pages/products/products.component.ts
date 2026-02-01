@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 
 @Component({
-    selector: 'app-articles',
+    selector: 'app-products',
     standalone: true,
     imports: [PageContentComponent],
-    templateUrl: './articles.component.html'
+    templateUrl: './products.component.html'
 })
-export class ArticlesComponent {
+export class ProductsComponent {
 }

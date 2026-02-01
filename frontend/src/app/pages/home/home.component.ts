@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
+import { PageContentComponent } from '../../shared/page-content/page-content.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    templateUrl: './home.component.html',
-    styleUrl: './home.component.css'
+    imports: [PageContentComponent],
+    templateUrl: './home.component.html'
 })
 export class HomeComponent {
 }

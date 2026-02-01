@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AvatarModule } from 'primeng/avatar';
 import { StyleClassModule } from 'primeng/styleclass';
 import { LogoComponent } from '../logo/logo.component';
@@ -7,7 +8,7 @@ import { LogoComponent } from '../logo/logo.component';
 @Component({
     selector: 'app-menu',
     standalone: true,
-    imports: [CommonModule, AvatarModule, StyleClassModule, LogoComponent],
+    imports: [CommonModule, AvatarModule, StyleClassModule, LogoComponent, RouterLink, RouterLinkActive],
     templateUrl: './menu.component.html',
     styleUrl: './menu.component.css'
 })
@@ -16,24 +17,22 @@ export class MenuComponent {
         {
             label: 'Home',
             icon: 'pi-home',
-            to: ''
+            to: '/'
         },
         {
-            label: 'Artykuly',
+            label: 'Artykuły',
             icon: 'pi-book',
-            to: ''
+            to: '/artykuly'
         },
         {
             label: 'Produkty',
             icon: 'pi-briefcase',
-            to: ''
+            to: '/produkty'
         },
         {
             label: 'Kontakt',
             icon: 'pi-envelope',
-            to: ''
+            to: '/kontakt'
         }
     ]);
-
-    selectedNav: string = 'Home';
 }
