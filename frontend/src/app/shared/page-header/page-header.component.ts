@@ -12,7 +12,7 @@ export interface BreadcrumbItem {
     standalone: true,
     imports: [CommonModule, RouterLink],
     template: `
-        <div class="bg-surface-0 dark:bg-surface-950 py-8">
+        <div class="bg-surface-0 dark:bg-surface-950 pb-8">
             <div class="flex flex-col gap-4">
                 @if (breadcrumbs().length > 0) {
                     <ul class="list-none p-0 m-0 flex flex-wrap items-center font-medium">
