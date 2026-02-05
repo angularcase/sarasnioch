@@ -6,11 +6,13 @@ import { BreadcrumbItem, PageHeaderComponent } from '../page-header/page-header.
     standalone: true,
     imports: [PageHeaderComponent],
     template: `
-        <app-page-header [title]="title()" [breadcrumbs]="breadcrumbs()" />
+        @if (title()) {
+            <app-page-header [title]="title()!" [breadcrumbs]="breadcrumbs()" />
+        }
         <ng-content></ng-content>
     `
 })
 export class PageContentComponent {
-    title = input.required<string>();
+    title = input<string>();
     breadcrumbs = input<BreadcrumbItem[]>([]);
 }
