@@ -4,15 +4,14 @@ import { Observable } from 'rxjs';
 
 export interface Article {
   id: number;
-  attributes: {
-    title: string;
-    slug: string;
-    content: string;
-    publishedAt: string;
-    author?: string;
-    createdAt: string;
-    updatedAt: string;
-  };
+  documentId: string;
+  title: string;
+  slug: string;
+  content: string;
+  publishedAt: string;
+  author?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ArticlesResponse {
@@ -42,7 +41,7 @@ export class ArticleService {
     });
   }
 
-  getArticleBySlug(slug: string): Observable<{ data: Article }> {
-    return this.http.get<{ data: Article }>(`${this.apiUrl}?filters[slug][$eq]=${slug}&populate=*`);
+  getArticleBySlug(slug: string): Observable<ArticlesResponse> {
+    return this.http.get<ArticlesResponse>(`${this.apiUrl}?filters[slug][$eq]=${slug}&populate=*`);
   }
 }
