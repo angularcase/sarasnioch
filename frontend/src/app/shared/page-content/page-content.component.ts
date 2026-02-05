@@ -1,15 +1,16 @@
 import { Component, input } from '@angular/core';
-import { PageTitleComponent } from '../page-title/page-title.component';
+import { BreadcrumbItem, PageHeaderComponent } from '../page-header/page-header.component';
 
 @Component({
     selector: 'app-page-content',
     standalone: true,
-    imports: [PageTitleComponent],
+    imports: [PageHeaderComponent],
     template: `
-        <app-page-title [title]="title()" />
+        <app-page-header [title]="title()" [breadcrumbs]="breadcrumbs()" />
         <ng-content></ng-content>
     `
 })
 export class PageContentComponent {
     title = input.required<string>();
+    breadcrumbs = input<BreadcrumbItem[]>([]);
 }

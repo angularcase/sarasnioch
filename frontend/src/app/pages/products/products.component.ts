@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
+import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-products',
@@ -8,4 +9,8 @@ import { PageContentComponent } from '../../shared/page-content/page-content.com
     templateUrl: './products.component.html'
 })
 export class ProductsComponent {
+    breadcrumbs: BreadcrumbItem[] = [
+        { label: 'Home', route: '/' },
+        { label: 'Produkty' }
+    ];
 }

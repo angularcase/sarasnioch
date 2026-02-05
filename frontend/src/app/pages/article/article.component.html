@@ -1,8 +1,8 @@
-@if (loading()) {
-    <p class="text-surface-600 dark:text-surface-300">Pobieranie artykułu...</p>
-} @else if (article(); as art) {
-    <div class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
+<app-page-content [title]="article()?.title ?? 'Artykuł'" [breadcrumbs]="breadcrumbs()">
+    @if (loading()) {
+        <p class="text-surface-600 dark:text-surface-300">Pobieranie artykułu...</p>
+    } @else if (article(); as art) {
+        <div class="flex flex-col gap-6">
             <div class="text-sm text-surface-600 dark:text-surface-200">
                 <span>Opublikowano </span>
                 <span class="font-bold">{{ art.publishedAt | date:'d MMMM yyyy' }}</span>
@@ -11,8 +11,7 @@
                     <span class="font-bold">{{ art.author }}</span>
                 }
             </div>
-            <h1 class="text-2xl font-medium text-surface-900 dark:text-surface-0">{{ art.title }}</h1>
+            <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="art.content"></div>
         </div>
-        <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="art.content"></div>
-    </div>
-}
+    }
+</app-page-content>

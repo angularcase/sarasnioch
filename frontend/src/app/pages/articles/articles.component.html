@@ -1,4 +1,4 @@
-<app-page-content title="Artykuły">
+<app-page-content title="Artykuły" [breadcrumbs]="breadcrumbs">
     @if (loading()) {
         <p class="text-surface-600 dark:text-surface-300">Ładowanie artykułów...</p>
     } @else if (articles().length === 0) {

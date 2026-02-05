@@ -1,13 +1,15 @@
-import { Component, inject, signal, OnInit } from '@angular/core';
+import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule, DatePipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { ArticleService, Article } from '../../core/services/article.service';
+import { PageContentComponent } from '../../shared/page-content/page-content.component';
+import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-article',
     standalone: true,
-    imports: [CommonModule, TagModule, DatePipe],
+    imports: [CommonModule, TagModule, DatePipe, PageContentComponent],
     templateUrl: './article.component.html'
 })
 export class ArticleComponent implements OnInit {
@@ -17,6 +19,15 @@ export class ArticleComponent implements OnInit {
 
     article = signal<Article | null>(null);
     loading = signal(true);
+    
+    breadcrumbs = computed<BreadcrumbItem[]>(() => {
+        const art = this.article();
+        return [
+            { label: 'Home', route: '/' },
+            { label: 'Artykuły', route: '/artykuly' },
+            { label: art?.title ?? 'Artykuł' }
+        ];
+    });
 
     ngOnInit(): void {
         const slug = this.route.snapshot.paramMap.get('slug');

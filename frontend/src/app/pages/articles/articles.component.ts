@@ -3,6 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { ArticleService, Article } from '../../core/services/article.service';
+import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-articles',
@@ -15,6 +16,10 @@ export class ArticlesComponent implements OnInit {
 
     articles = signal<Article[]>([]);
     loading = signal(true);
+    breadcrumbs: BreadcrumbItem[] = [
+        { label: 'Home', route: '/' },
+        { label: 'Artykuły' }
+    ];
 
     ngOnInit(): void {
         this.loadArticles();
