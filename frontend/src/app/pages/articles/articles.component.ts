@@ -6,32 +6,32 @@ import { PageContentComponent } from '../../shared/page-content/page-content.com
 import { CenteredLoaderComponent } from '../../shared/centered-loader/centered-loader.component';
 import { CenteredGridBoxesComponent, GreyBoxItem } from '../../shared/centered-grid-boxes/centered-grid-boxes.component';
 import { AnimalCategorySelectComponent } from '../../shared/animal-category-select/animal-category-select.component';
-import { ManufacturerSelectComponent } from '../../shared/manufacturer-select/manufacturer-select.component';
+import { ProductSelectComponent } from '../../shared/product-select/product-select.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
 import { ArticleService, Article } from '../../core/services/article.service';
 import { AnimalCategoryService, AnimalCategory } from '../../core/services/animal-category.service';
-import { ManufacturerService, Manufacturer } from '../../core/services/manufacturer.service';
+import { ProductService, Product } from '../../core/services/product.service';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-articles',
     standalone: true,
-    imports: [CommonModule, PageContentComponent, CenteredLoaderComponent, CenteredGridBoxesComponent, AnimalCategorySelectComponent, ManufacturerSelectComponent, AtomGreyBoxComponent],
+    imports: [CommonModule, PageContentComponent, CenteredLoaderComponent, CenteredGridBoxesComponent, AnimalCategorySelectComponent, ProductSelectComponent, AtomGreyBoxComponent],
     templateUrl: './articles.component.html'
 })
 export class ArticlesComponent implements OnInit, OnDestroy {
     private articleService = inject(ArticleService);
     private animalCategoryService = inject(AnimalCategoryService);
-    private manufacturerService = inject(ManufacturerService);
+    private productService = inject(ProductService);
     private route = inject(ActivatedRoute);
     private router = inject(Router);
     private routeSubscription?: Subscription;
 
     articles = signal<Article[]>([]);
     animalCategories = signal<AnimalCategory[]>([]);
-    manufacturers = signal<Manufacturer[]>([]);
+    products = signal<Product[]>([]);
     selectedCategorySlug = signal<string | null>(null);
-    selectedManufacturerSlug = signal<string | null>(null);
+    selectedProductSlug = signal<string | null>(null);
     loading = signal(true);
     breadcrumbs = computed<BreadcrumbItem[]>(() => {
         const categorySlug = this.selectedCategorySlug();
@@ -52,7 +52,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
 
     articleItems = computed<GreyBoxItem[]>(() => {
         const categorySlug = this.selectedCategorySlug();
-        const manufacturerSlug = this.selectedManufacturerSlug();
+        const productSlug = this.selectedProductSlug();
         const allArticles = this.articles();
         
         let filteredArticles = allArticles;
@@ -64,31 +64,22 @@ export class ArticlesComponent implements OnInit, OnDestroy {
             );
         }
 
-        // Filter by manufacturer if selected (through products)
-        if (manufacturerSlug) {
+        // Filter by product if selected
+        if (productSlug) {
             filteredArticles = filteredArticles.filter(article =>
-                article.products?.some(product => product.manufacturer?.slug === manufacturerSlug)
+                article.products?.some(product => product.slug === productSlug)
             );
         }
 
         return filteredArticles.map(article => {
-            // Extract unique manufacturers from products
-            const manufacturersMap = new Map<string, { name: string; slug: string }>();
-            article.products?.forEach(product => {
-                if (product.manufacturer) {
-                    const man = product.manufacturer;
-                    if (!manufacturersMap.has(man.slug)) {
-                        manufacturersMap.set(man.slug, { name: man.name, slug: man.slug });
-                    }
-                }
-            });
+            const products = article.products?.map(p => ({ name: p.name, slug: p.slug })) ?? [];
             
             return {
                 title: article.title,
                 body: this.extractExcerpt(article.content, 150),
                 routerLink: `/artykul/${article.slug}`,
                 animalCategories: article.animalCategories,
-                manufacturers: Array.from(manufacturersMap.values())
+                products
             };
         });
     });
@@ -105,7 +96,7 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         });
 
         this.loadAnimalCategories();
-        this.loadManufacturers();
+        this.loadProducts();
         this.loadArticles();
     }
 
@@ -124,13 +115,13 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         });
     }
 
-    private loadManufacturers(): void {
-        this.manufacturerService.getManufacturers().subscribe({
+    private loadProducts(): void {
+        this.productService.getProducts().subscribe({
             next: (response) => {
-                this.manufacturers.set(response.data);
+                this.products.set(response.data);
             },
             error: (err) => {
-                console.error('Error loading manufacturers:', err);
+                console.error('Error loading products:', err);
             }
         });
     }
@@ -157,9 +148,8 @@ export class ArticlesComponent implements OnInit, OnDestroy {
         }
     }
 
-    onManufacturerChange(slug: string | null): void {
-        // Update manufacturer filter (no URL change)
-        this.selectedManufacturerSlug.set(slug);
+    onProductChange(slug: string | null): void {
+        this.selectedProductSlug.set(slug);
     }
 
     private extractExcerpt(htmlContent: string, maxLength: number): string {

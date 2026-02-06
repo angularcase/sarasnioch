@@ -17,10 +17,10 @@
                             (selectedSlugChange)="onCategoryChange($event)" />
                     </div>
                     <div class="w-full md:w-auto flex-none">
-                        <app-manufacturer-select
-                            [options]="manufacturers()"
-                            [selectedSlug]="selectedManufacturerSlug()"
-                            (selectedSlugChange)="onManufacturerChange($event)" />
+                        <app-product-select
+                            [options]="products()"
+                            [selectedSlug]="selectedProductSlug()"
+                            (selectedSlugChange)="onProductChange($event)" />
                     </div>
                 </div>
             </app-atom-grey-box>

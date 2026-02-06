@@ -7,6 +7,7 @@ export interface GreyBoxItem {
     routerLink?: string | null;
     animalCategories?: Array<{ name: string; slug: string }>;
     manufacturers?: Array<{ name: string; slug: string }>;
+    products?: Array<{ name: string; slug: string }>;
 }
 
 @Component({
@@ -37,11 +38,11 @@ export interface GreyBoxItem {
                                 }
                             </div>
                         }
-                        @if (item.manufacturers && item.manufacturers.length > 0) {
+                        @if (item.products && item.products.length > 0) {
                             <div slot="bottom" class="flex flex-wrap gap-2 mt-3">
-                                @for (man of item.manufacturers; track man.slug) {
+                                @for (prod of item.products; track prod.slug) {
                                     <span class="px-2 py-1 text-xs font-medium bg-surface-200 dark:bg-surface-700 text-surface-700 dark:text-surface-300 rounded-md">
-                                        {{ man.name }}
+                                        {{ prod.name }}
                                     </span>
                                 }
                             </div>
