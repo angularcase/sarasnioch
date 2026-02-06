@@ -33,18 +33,21 @@ export class ArticlesComponent implements OnInit, OnDestroy {
     selectedCategorySlug = signal<string | null>(null);
     selectedManufacturerSlug = signal<string | null>(null);
     loading = signal(true);
-    breadcrumbs: BreadcrumbItem[] = [
-        { label: 'Home', route: '/' },
-        { label: 'Artykuły' }
-    ];
-
-    pageTitle = computed<string>(() => {
+    breadcrumbs = computed<BreadcrumbItem[]>(() => {
         const categorySlug = this.selectedCategorySlug();
+        const baseBreadcrumbs: BreadcrumbItem[] = [
+            { label: 'Home', route: '/' },
+            { label: 'Artykuły' }
+        ];
+        
         if (categorySlug) {
             const category = this.animalCategories().find(cat => cat.slug === categorySlug);
-            return category ? `Artykuły - ${category.name}` : 'Artykuły';
+            if (category) {
+                baseBreadcrumbs.push({ label: category.name });
+            }
         }
-        return 'Lista artykułów';
+        
+        return baseBreadcrumbs;
     });
 
     articleItems = computed<GreyBoxItem[]>(() => {
@@ -68,11 +71,26 @@ export class ArticlesComponent implements OnInit, OnDestroy {
             );
         }
 
-        return filteredArticles.map(article => ({
-            title: article.title,
-            body: this.extractExcerpt(article.content, 150),
-            routerLink: `/artykul/${article.slug}`
-        }));
+        return filteredArticles.map(article => {
+            // Extract unique manufacturers from products
+            const manufacturersMap = new Map<string, { name: string; slug: string }>();
+            article.products?.forEach(product => {
+                if (product.manufacturer) {
+                    const man = product.manufacturer;
+                    if (!manufacturersMap.has(man.slug)) {
+                        manufacturersMap.set(man.slug, { name: man.name, slug: man.slug });
+                    }
+                }
+            });
+            
+            return {
+                title: article.title,
+                body: this.extractExcerpt(article.content, 150),
+                routerLink: `/artykul/${article.slug}`,
+                animalCategories: article.animalCategories,
+                manufacturers: Array.from(manufacturersMap.values())
+            };
+        });
     });
 
     ngOnInit(): void {

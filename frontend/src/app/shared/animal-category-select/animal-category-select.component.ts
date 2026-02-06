@@ -14,7 +14,7 @@ interface SelectOption {
     standalone: true,
     imports: [CommonModule, FormsModule, SelectModule],
     template: `
-        <div class="flex justify-start">
+        <div class="flex justify-start w-full">
             <p-select
                 [options]="selectOptions()"
                 [(ngModel)]="selectedValue"
@@ -22,9 +22,8 @@ interface SelectOption {
                 optionLabel="label"
                 optionValue="value"
                 placeholder="Wybierz kategorię"
-                [style]="{ width: '300px' }"
                 appendTo="body"
-                class="w-full max-w-md">
+                class="w-full md:max-w-md">
             </p-select>
         </div>
     `
