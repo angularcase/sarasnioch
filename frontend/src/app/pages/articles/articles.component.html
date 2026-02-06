@@ -10,14 +10,18 @@
             [items]="articleItems()">
             <app-atom-grey-box title="Filtry" [useBackground]="false">
                 <div class="flex flex-row flex-wrap gap-4">
-                    <app-animal-category-select
-                        [options]="animalCategories()"
-                        [selectedSlug]="selectedCategorySlug()"
-                        (selectedSlugChange)="onCategoryChange($event)" />
-                    <app-manufacturer-select
-                        [options]="manufacturers()"
-                        [selectedSlug]="selectedManufacturerSlug()"
-                        (selectedSlugChange)="onManufacturerChange($event)" />
+                    <div class="w-full md:w-auto flex-none">
+                        <app-animal-category-select
+                            [options]="animalCategories()"
+                            [selectedSlug]="selectedCategorySlug()"
+                            (selectedSlugChange)="onCategoryChange($event)" />
+                    </div>
+                    <div class="w-full md:w-auto flex-none">
+                        <app-manufacturer-select
+                            [options]="manufacturers()"
+                            [selectedSlug]="selectedManufacturerSlug()"
+                            (selectedSlugChange)="onManufacturerChange($event)" />
+                    </div>
                 </div>
             </app-atom-grey-box>
         </app-centered-grid-boxes>

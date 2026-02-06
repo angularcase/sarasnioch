@@ -23,7 +23,7 @@ interface SelectOption {
                 optionValue="value"
                 placeholder="Wybierz kategorię"
                 appendTo="body"
-                class="w-full md:max-w-md">
+                class="w-full">
             </p-select>
         </div>
     `
