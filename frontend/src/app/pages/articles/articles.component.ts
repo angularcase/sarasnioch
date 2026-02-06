@@ -1,6 +1,7 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
+import { CenteredLoaderComponent } from '../../shared/centered-loader/centered-loader.component';
 import { CenteredGridBoxesComponent, GreyBoxItem } from '../../shared/centered-grid-boxes/centered-grid-boxes.component';
 import { ArticleService, Article } from '../../core/services/article.service';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
@@ -8,7 +9,7 @@ import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 @Component({
     selector: 'app-articles',
     standalone: true,
-    imports: [CommonModule, PageContentComponent, CenteredGridBoxesComponent],
+    imports: [CommonModule, PageContentComponent, CenteredLoaderComponent, CenteredGridBoxesComponent],
     templateUrl: './articles.component.html'
 })
 export class ArticlesComponent implements OnInit {

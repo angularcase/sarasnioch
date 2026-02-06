@@ -1,5 +1,6 @@
 import { Component, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 
 export interface HeroFeature {
@@ -7,10 +8,15 @@ export interface HeroFeature {
     text: string;
 }
 
+export interface HeroButton {
+    text: string;
+    link: string;
+}
+
 @Component({
     selector: 'app-hero-marine-with-button',
     standalone: true,
-    imports: [CommonModule, ButtonModule],
+    imports: [CommonModule, ButtonModule, RouterLink],
     template: `
         <div class="relative overflow-hidden bg-surface-900 p-8 lg:p-20 rounded-3xl">
             <!-- Mobile background image -->
@@ -36,8 +42,16 @@ export interface HeroFeature {
                             }
                         </ul>
                     }
-                    @if (buttonText()) {
-                        <button pButton rounded size="large" class="mt-12">
+                    @if (buttons().length > 0) {
+                        <div class="flex flex-wrap gap-4 mt-12">
+                            @for (btn of buttons(); track btn.link) {
+                                <a pButton size="large" [routerLink]="btn.link" class="!rounded-md">
+                                    <span pButtonLabel>{{ btn.text }}</span>
+                                </a>
+                            }
+                        </div>
+                    } @else if (buttonText()) {
+                        <button pButton size="large" class="mt-12 !rounded-md">
                             <span pButtonLabel>{{ buttonText() }}</span>
                         </button>
                     }
@@ -55,6 +69,8 @@ export class HeroMarineWithButtonComponent {
     title = input.required<string>();
     subtitle = input.required<string>();
     features = input<HeroFeature[]>([]);
+    /** Dwa lub więcej przycisków (text + link). Gdy ustawione, ignorowane jest buttonText. */
+    buttons = input<HeroButton[]>([]);
     buttonText = input<string>();
     imageSrc = input.required<string>();
     imageAlt = input<string>('Hero image');

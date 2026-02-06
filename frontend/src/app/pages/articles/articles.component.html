@@ -1,6 +1,6 @@
 <app-page-content title="Artykuły" [breadcrumbs]="breadcrumbs">
     @if (loading()) {
-        <p class="text-surface-600 dark:text-surface-300">Ładowanie artykułów...</p>
+        <app-centered-loader label="Ładowanie artykułów..." />
     } @else if (articles().length === 0) {
         <p class="text-surface-600 dark:text-surface-300">Brak artykułów</p>
     } @else {
