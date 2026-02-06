@@ -15,6 +15,10 @@ export const routes: Routes = [
         component: ArticlesComponent
     },
     {
+        path: 'artykuly/:categorySlug',
+        component: ArticlesComponent
+    },
+    {
         path: 'artykul/:slug',
         component: ArticleComponent
     },

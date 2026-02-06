@@ -1,4 +1,4 @@
-<app-page-content title="Artykuły" [breadcrumbs]="breadcrumbs">
+<app-page-content [title]="pageTitle()" [breadcrumbs]="breadcrumbs">
     @if (loading()) {
         <app-centered-loader label="Ładowanie artykułów..." />
     } @else if (articles().length === 0) {
@@ -7,6 +7,19 @@
         <app-centered-grid-boxes
             title="Warto przeczytać"
             subtitle="Publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej."
-            [items]="articleItems()" />
+            [items]="articleItems()">
+            <app-atom-grey-box title="Filtry" [useBackground]="false">
+                <div class="flex flex-row gap-4">
+                    <app-animal-category-select
+                        [options]="animalCategories()"
+                        [selectedSlug]="selectedCategorySlug()"
+                        (selectedSlugChange)="onCategoryChange($event)" />
+                    <app-manufacturer-select
+                        [options]="manufacturers()"
+                        [selectedSlug]="selectedManufacturerSlug()"
+                        (selectedSlugChange)="onManufacturerChange($event)" />
+                </div>
+            </app-atom-grey-box>
+        </app-centered-grid-boxes>
     }
 </app-page-content>

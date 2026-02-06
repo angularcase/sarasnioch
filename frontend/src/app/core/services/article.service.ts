@@ -1,6 +1,28 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+export interface AnimalCategory {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface Manufacturer {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
+export interface Product {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+  manufacturer?: Manufacturer;
+}
 
 export interface Article {
   id: number;
@@ -12,6 +34,8 @@ export interface Article {
   author?: string;
   createdAt: string;
   updatedAt: string;
+  animalCategories?: AnimalCategory[];
+  products?: Product[];
 }
 
 export interface ArticlesResponse {
@@ -34,6 +58,8 @@ export class ArticleService {
   private apiUrl = 'http://localhost:1337/api/articles';
 
   getArticles(): Observable<ArticlesResponse> {
+    // Use populate=* to get all relations, then filter client-side
+    // This avoids Strapi v4 nested populate syntax issues
     return this.http.get<ArticlesResponse>(this.apiUrl, {
       params: {
         'populate': '*'

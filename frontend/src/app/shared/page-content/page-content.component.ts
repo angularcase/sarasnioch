@@ -9,7 +9,7 @@ import { BreadcrumbItem, PageHeaderComponent } from '../page-header/page-header.
         @if (title()) {
             <app-page-header [title]="title()!" [breadcrumbs]="breadcrumbs()" />
         }
-        <div class="py-8">
+        <div class="py-8 flex flex-col gap-16">
             <ng-content></ng-content>
         </div>
     `

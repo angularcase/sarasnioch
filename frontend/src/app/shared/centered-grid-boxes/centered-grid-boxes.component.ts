@@ -17,6 +17,9 @@ export interface GreyBoxItem {
             <p class="text-xl leading-normal text-surface-600 dark:text-surface-400 text-center max-w-[96%] lg:max-w-240 mx-auto mb-14">
                 {{ subtitle() }}
             </p>
+            <div class="mb-6">
+                <ng-content />
+            </div>
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
                 @for (item of items(); track item.title) {
                     <app-atom-grey-box 
