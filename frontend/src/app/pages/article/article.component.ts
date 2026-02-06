@@ -4,12 +4,13 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { TagModule } from 'primeng/tag';
 import { ArticleService, Article } from '../../core/services/article.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
+import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-article',
     standalone: true,
-    imports: [CommonModule, TagModule, DatePipe, PageContentComponent],
+    imports: [CommonModule, TagModule, DatePipe, PageContentComponent, AtomGreyBoxComponent],
     templateUrl: './article.component.html'
 })
 export class ArticleComponent implements OnInit {
@@ -36,6 +37,10 @@ export class ArticleComponent implements OnInit {
         } else {
             this.router.navigate(['/']);
         }
+    }
+
+    getAuthorDisplay(art: Article): string {
+        return (art.author?.trim() ?? '') || '—';
     }
 
     private loadArticle(slug: string): void {

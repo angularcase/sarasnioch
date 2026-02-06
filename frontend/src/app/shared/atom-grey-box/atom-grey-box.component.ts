@@ -16,7 +16,7 @@ import { RouterLink } from '@angular/router';
                 <ng-content />
                 <ng-content select="[slot=bottom]" />
             </a>
-        }         @else {
+        } @else {
             <div [class]="'p-6 rounded-xl border ' + (useBackground() ? 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700' : 'border-surface-100 dark:border-surface-700')">
                 <ng-content select="[slot=top]" />
                 <h5 class="text-surface-900 dark:text-surface-0 text-lg font-semibold leading-tight mb-3">{{ title() }}</h5>

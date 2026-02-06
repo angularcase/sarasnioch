@@ -2,16 +2,25 @@
     @if (loading()) {
         <p class="text-surface-600 dark:text-surface-300">Pobieranie artykułu...</p>
     } @else if (article(); as art) {
-        <div class="flex flex-col gap-6">
-            <div class="text-sm text-surface-600 dark:text-surface-200">
-                <span>Opublikowano </span>
-                <span class="font-bold">{{ art.publishedAt | date:'d MMMM yyyy' }}</span>
-                @if (art.author) {
-                    <span> przez </span>
-                    <span class="font-bold">{{ art.author }}</span>
-                }
+        <div class="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-6 md:gap-8">
+            <div class="hidden md:block">
+                <app-atom-grey-box [title]="'Autor'" [body]="getAuthorDisplay(art)" />
             </div>
-            <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="art.content"></div>
+            <div class="flex flex-col gap-6 min-w-0">
+                <div class="text-sm text-surface-600 dark:text-surface-200">
+                    <span>Opublikowano </span>
+                    <span class="font-bold">{{ art.publishedAt | date:'d MMMM yyyy' }}</span>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    @for (cat of art.animalCategories ?? []; track cat.slug) {
+                        <span class="px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-md">{{ cat.name }}</span>
+                    }
+                    @for (prod of art.products ?? []; track prod.slug) {
+                        <span class="px-2 py-1 text-xs font-medium bg-surface-200 dark:bg-surface-700 text-surface-700 dark:text-surface-300 rounded-md">{{ prod.name }}</span>
+                    }
+                </div>
+                <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="art.content"></div>
+            </div>
         </div>
     }
 </app-page-content>

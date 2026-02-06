@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 export interface AnimalCategory {
   id: number;
@@ -68,6 +69,46 @@ export class ArticleService {
   }
 
   getArticleBySlug(slug: string): Observable<ArticlesResponse> {
-    return this.http.get<ArticlesResponse>(`${this.apiUrl}?filters[slug][$eq]=${slug}&populate=*`);
+    return this.http.get<ArticlesResponse>(
+      `${this.apiUrl}?filters[slug][$eq]=${slug}&populate[0]=animalCategories&populate[1]=products`
+    ).pipe(
+      map((response) => {
+        if (response.data?.length) {
+          response.data = response.data.map((item) =>
+          this.flattenStrapiDocument(item as unknown as Record<string, unknown>)
+        ) as unknown as Article[];
+        }
+        return response;
+      })
+    );
+  }
+
+  private flattenStrapiDocument(doc: Record<string, unknown>): Record<string, unknown> {
+    const attrs = doc['attributes'] as Record<string, unknown> | undefined;
+    const flat: Record<string, unknown> = attrs ? { ...doc, ...attrs } : { ...doc };
+    delete flat['attributes'];
+
+    const flattenRelation = (rel: unknown): unknown[] => {
+      let arr: unknown[];
+      const r = rel as { data?: unknown } | undefined;
+      if (Array.isArray(rel)) {
+        arr = rel;
+      } else if (r?.data) {
+        arr = Array.isArray(r.data) ? r.data : [r.data];
+      } else {
+        return [];
+      }
+      return arr.map((item) => {
+        const rec = item as Record<string, unknown>;
+        const a = rec['attributes'] as Record<string, unknown> | undefined;
+        return a ? { ...rec, ...a, attributes: undefined } : rec;
+      });
+    };
+
+    const ac = flat['animalCategories'];
+    if (ac) flat['animalCategories'] = flattenRelation(ac);
+    const prod = flat['products'];
+    if (prod) flat['products'] = flattenRelation(prod);
+    return flat;
   }
 }
