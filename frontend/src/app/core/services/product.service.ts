@@ -2,11 +2,19 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export interface Manufacturer {
+  id: number;
+  documentId: string;
+  name: string;
+  slug: string;
+}
+
 export interface Product {
   id: number;
   documentId: string;
   name: string;
   slug: string;
+  manufacturer?: Manufacturer;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -33,7 +41,8 @@ export class ProductService {
   getProducts(): Observable<ProductsResponse> {
     return this.http.get<ProductsResponse>(this.apiUrl, {
       params: {
-        'sort': 'name:asc'
+        'sort': 'name:asc',
+        'populate': '*'
       }
     });
   }

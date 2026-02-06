@@ -23,6 +23,10 @@ interface SelectOption {
                 optionValue="value"
                 placeholder="Wybierz produkt"
                 appendTo="body"
+                [filter]="true"
+                filterPlaceholder="Szukaj produktu..."
+                filterBy="label"
+                filterMatchMode="contains"
                 class="w-full">
             </p-select>
         </div>
