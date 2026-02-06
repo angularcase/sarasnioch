@@ -1,3 +1,9 @@
 <app-page-content title="Kontakt" [breadcrumbs]="breadcrumbs">
-    <p class="text-surface-600 dark:text-surface-300">Skontaktuj się z nami</p>
+    <app-contact-form
+        title="Skontaktuj się z nami"
+        description="Masz pytania? Wypełnij formularz poniżej, a skontaktujemy się z Tobą wkrótce."
+        email="kontakt@sarasnioch.pl"
+        [socialLinks]="socialLinks"
+        (submit)="onContactSubmit($event)"
+    />
 </app-page-content>
