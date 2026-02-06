@@ -1,1 +1,5 @@
-/* Logo component styles */
+/* Logo component – wymusza własny układ, blokuje nadpisywanie przez rodzica */
+:host {
+  display: inline-block;
+  text-align: left;
+}

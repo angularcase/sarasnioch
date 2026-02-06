@@ -108,7 +108,7 @@ export interface ContactFormData {
     `
 })
 export class ContactFormComponent {
-    title = input<string>('Skontaktuj się z nami');
+    title = input<string>('Masz pytanie?');
     description = input<string>('Masz pytania? Wypełnij formularz poniżej, a skontaktujemy się z Tobą wkrótce.');
     email = input<string>('');
     socialLinks = input<Array<{ href: string; label: string; icon: string }>>([]);
