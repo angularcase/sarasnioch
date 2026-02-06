@@ -1,10 +1,13 @@
 import { Component, input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { AtomGreyBoxComponent } from '../atom-grey-box/atom-grey-box.component';
 
 export interface GreyBoxItem {
     title: string;
     body: string;
     routerLink?: string | null;
+    publishedAt?: string | null;
+    author?: string | null;
     animalCategories?: Array<{ name: string; slug: string }>;
     manufacturers?: Array<{ name: string; slug: string }>;
     products?: Array<{ name: string; slug: string }>;
@@ -13,7 +16,7 @@ export interface GreyBoxItem {
 @Component({
     selector: 'app-centered-grid-boxes',
     standalone: true,
-    imports: [AtomGreyBoxComponent],
+    imports: [CommonModule, AtomGreyBoxComponent],
     template: `
         <div class="bg-surface-0 dark:bg-surface-950 overflow-hidden">
             <h2 class="text-surface-900 font-semibold text-center text-5xl leading-tight mb-4 dark:text-surface-0">{{ title() }}</h2>
@@ -36,6 +39,11 @@ export interface GreyBoxItem {
                                         {{ cat.name }}
                                     </span>
                                 }
+                            </div>
+                        }
+                        @if (item.publishedAt || item.author) {
+                            <div slot="subtitle" class="text-sm text-surface-500 dark:text-surface-400 mb-3">
+                                {{ item.publishedAt ? (item.publishedAt | date:'d.MM.yyyy') : '' }}{{ item.publishedAt && item.author ? ' · ' : '' }}{{ item.author ?? '' }}
                             </div>
                         }
                         @if (item.products && item.products.length > 0) {

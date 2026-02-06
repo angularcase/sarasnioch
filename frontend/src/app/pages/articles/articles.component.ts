@@ -78,6 +78,8 @@ export class ArticlesComponent implements OnInit, OnDestroy {
                 title: article.title,
                 body: this.extractExcerpt(article.content, 150),
                 routerLink: `/artykul/${article.slug}`,
+                publishedAt: article.publishedAt,
+                author: article.author,
                 animalCategories: article.animalCategories,
                 products
             };
