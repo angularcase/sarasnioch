@@ -21,7 +21,7 @@ export interface HeroFeature {
                 <div class="flex-1 p-4">
                     <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
                         @if (highlightedPrefix()) {
-                            <span class="text-green-500">{{ highlightedPrefix() }}</span>
+                            <span class="text-primary">{{ highlightedPrefix() }}</span>
                         }
                         {{ title() }}
                     </h1>
