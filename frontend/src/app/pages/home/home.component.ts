@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { HeroFeature, HeroMarineWithButtonComponent } from '../../shared/hero-marine-with-button/hero-marine-with-button.component';
-
 @Component({
     selector: 'app-home',
     standalone: true,
