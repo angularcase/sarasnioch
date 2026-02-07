@@ -63,7 +63,8 @@ export class ArticleService {
     // This avoids Strapi v4 nested populate syntax issues
     return this.http.get<ArticlesResponse>(this.apiUrl, {
       params: {
-        'populate': '*'
+        'populate': '*',
+        'sort': 'publishedAt:desc'
       }
     });
   }
