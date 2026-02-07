@@ -9,7 +9,7 @@ import { ArticleService, Article } from '../../core/services/article.service';
     imports: [CommonModule, CenteredGridBoxesComponent],
     template: `
         <app-centered-grid-boxes
-            title="Ostatnie artykuły"
+            title="Najnowsze artykuły"
             subtitle="Najnowsze publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej."
             [items]="articleItems()"
             [showSlot]="false" />
