@@ -5,12 +5,13 @@ import { TagModule } from 'primeng/tag';
 import { ArticleService, Article } from '../../core/services/article.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
+import { GalleryComponent } from '../../shared/gallery/gallery.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-article',
     standalone: true,
-    imports: [CommonModule, TagModule, DatePipe, PageContentComponent, AtomGreyBoxComponent],
+    imports: [CommonModule, TagModule, DatePipe, PageContentComponent, AtomGreyBoxComponent, GalleryComponent],
     templateUrl: './article.component.html'
 })
 export class ArticleComponent implements OnInit {
@@ -41,6 +42,10 @@ export class ArticleComponent implements OnInit {
 
     getAuthorDisplay(art: Article): string {
         return (art.author?.trim() ?? '') || '—';
+    }
+
+    getGalleryUrls(art: Article): string[] {
+        return art.gallery?.map(g => g.url).filter(Boolean) ?? [];
     }
 
     private loadArticle(slug: string): void {

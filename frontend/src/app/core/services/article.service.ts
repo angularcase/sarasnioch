@@ -25,6 +25,10 @@ export interface Product {
   manufacturer?: Manufacturer;
 }
 
+export interface ArticleImage {
+  url: string;
+}
+
 export interface Article {
   id: number;
   documentId: string;
@@ -37,6 +41,7 @@ export interface Article {
   updatedAt: string;
   animalCategories?: AnimalCategory[];
   products?: Product[];
+  gallery?: ArticleImage[];
 }
 
 export interface ArticlesResponse {
@@ -78,7 +83,7 @@ export class ArticleService {
 
   getArticleBySlug(slug: string): Observable<ArticlesResponse> {
     return this.http.get<ArticlesResponse>(
-      `${this.apiUrl}?filters[slug][$eq]=${slug}&populate[0]=animalCategories&populate[1]=products`
+      `${this.apiUrl}?filters[slug][$eq]=${slug}&populate[0]=animalCategories&populate[1]=products&populate[2]=gallery`
     ).pipe(
       map((response) => {
         if (response.data?.length) {
@@ -113,10 +118,48 @@ export class ArticleService {
       });
     };
 
+    const flattenMedia = (media: unknown): ArticleImage[] => {
+      let arr: unknown[];
+      const m = media as { data?: unknown } | undefined;
+      if (Array.isArray(media)) {
+        arr = media;
+      } else if (m?.data) {
+        arr = Array.isArray(m.data) ? m.data : [m.data];
+      } else {
+        return [];
+      }
+      return arr
+        .map((item) => {
+          const rec = item as Record<string, unknown>;
+          // Check if url is directly in the object (already flattened)
+          const directUrl = rec['url'] as string | undefined;
+          if (directUrl) {
+            const url = directUrl.startsWith('http') 
+              ? directUrl 
+              : `${this.apiUrl.replace('/api/articles', '')}${directUrl}`;
+            return { url };
+          }
+          // Check if url is in attributes (not yet flattened)
+          const attrs = rec['attributes'] as { url?: string } | undefined;
+          if (attrs?.url) {
+            const url = attrs.url.startsWith('http') 
+              ? attrs.url 
+              : `${this.apiUrl.replace('/api/articles', '')}${attrs.url}`;
+            return { url };
+          }
+          return null;
+        })
+        .filter((item): item is ArticleImage => item !== null);
+    };
+
     const ac = flat['animalCategories'];
     if (ac) flat['animalCategories'] = flattenRelation(ac);
     const prod = flat['products'];
     if (prod) flat['products'] = flattenRelation(prod);
+    const gallery = flat['gallery'];
+    if (gallery) {
+      flat['gallery'] = flattenMedia(gallery);
+    }
     return flat;
   }
 }

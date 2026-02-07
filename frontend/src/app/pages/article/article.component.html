@@ -20,6 +20,11 @@
                     }
                 </div>
                 <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="art.content"></div>
+                @if (art.gallery && art.gallery.length > 0) {
+                    <div class="mt-6">
+                        <app-gallery [images]="getGalleryUrls(art)" />
+                    </div>
+                }
             </div>
         </div>
     }
