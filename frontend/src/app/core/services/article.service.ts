@@ -59,14 +59,21 @@ export class ArticleService {
   private apiUrl = 'http://localhost:1337/api/articles';
 
   getArticles(): Observable<ArticlesResponse> {
-    // Use populate=* to get all relations, then filter client-side
-    // This avoids Strapi v4 nested populate syntax issues
     return this.http.get<ArticlesResponse>(this.apiUrl, {
       params: {
         'populate': '*',
         'sort': 'publishedAt:desc'
       }
-    });
+    }).pipe(
+      map((response) => {
+        if (response.data?.length) {
+          response.data = response.data.map((item) =>
+            this.flattenStrapiDocument(item as unknown as Record<string, unknown>)
+          ) as unknown as Article[];
+        }
+        return response;
+      })
+    );
   }
 
   getArticleBySlug(slug: string): Observable<ArticlesResponse> {
