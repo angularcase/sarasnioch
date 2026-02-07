@@ -18,4 +18,8 @@ export class HomeComponent {
         { text: 'Artykuły', link: '/artykuly' },
         { text: 'Produkty', link: '/produkty' }
     ];
+
+    articlesSectionTitle = 'Najnowsze artykuły';
+    articlesSectionSubtitle =
+        'Najnowsze publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej.';
 }

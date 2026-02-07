@@ -19,7 +19,7 @@ export interface GreyBoxItem {
     imports: [CommonModule, AtomGreyBoxComponent],
     template: `
         <div class="bg-surface-0 dark:bg-surface-950 overflow-hidden">
-            <h2 class="text-surface-900 font-semibold text-center text-5xl leading-tight mb-4 dark:text-surface-0">{{ title() }}</h2>
+            <h2 class="text-surface-900 font-semibold text-center text-4xl lg:text-5xl leading-tight mb-4 dark:text-surface-0">{{ title() }}</h2>
             <p class="text-xl leading-normal text-surface-600 dark:text-surface-400 text-center max-w-[96%] lg:max-w-240 mx-auto mb-14">
                 {{ subtitle() }}
             </p>

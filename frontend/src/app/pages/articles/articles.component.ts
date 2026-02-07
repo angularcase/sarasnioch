@@ -33,6 +33,11 @@ export class ArticlesComponent implements OnInit, OnDestroy {
     selectedCategorySlug = signal<string | null>(null);
     selectedProductSlug = signal<string | null>(null);
     loading = signal(true);
+
+    articlesSectionTitle = 'Korzystaj z doświadczenia';
+    articlesSectionSubtitle =
+        'Publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej.';
+
     breadcrumbs = computed<BreadcrumbItem[]>(() => {
         const categorySlug = this.selectedCategorySlug();
         const baseBreadcrumbs: BreadcrumbItem[] = [

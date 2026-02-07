@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, input, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CenteredGridBoxesComponent, GreyBoxItem } from '../centered-grid-boxes/centered-grid-boxes.component';
 import { ArticleService, Article } from '../../core/services/article.service';
@@ -9,13 +9,17 @@ import { ArticleService, Article } from '../../core/services/article.service';
     imports: [CommonModule, CenteredGridBoxesComponent],
     template: `
         <app-centered-grid-boxes
-            title="Najnowsze artykuły"
-            subtitle="Najnowsze publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej."
+            [title]="title()"
+            [subtitle]="subtitle()"
             [items]="articleItems()"
             [showSlot]="false" />
     `
 })
 export class Last3ArticlesComponent implements OnInit {
+    title = input<string>('Najnowsze artykuły');
+    subtitle = input<string>(
+        'Najnowsze publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej.'
+    );
     private articleService = inject(ArticleService);
 
     articles = signal<Article[]>([]);

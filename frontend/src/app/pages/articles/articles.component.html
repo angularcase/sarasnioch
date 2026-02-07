@@ -5,8 +5,8 @@
         <p class="text-surface-600 dark:text-surface-300">Brak artykułów</p>
     } @else {
         <app-centered-grid-boxes
-            title="Korzystaj z doświadczenia"
-            subtitle="Publikacje i materiały dotyczące produktów weterynaryjnych oraz praktyki klinicznej."
+            [title]="articlesSectionTitle"
+            [subtitle]="articlesSectionSubtitle"
             [items]="articleItems()">
             <app-atom-grey-box title="Filtry" [useBackground]="false">
                 <div class="flex flex-row flex-wrap gap-4">
