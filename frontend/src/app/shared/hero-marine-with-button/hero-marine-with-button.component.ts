@@ -23,7 +23,7 @@ export interface HeroButton {
             <img [src]="imageSrc()" [alt]="imageAlt()" 
                 class="absolute top-8 left-1/2 -translate-x-1/2 w-4/5 max-w-sm opacity-30 pointer-events-none z-0 lg:hidden" />
             
-            <div class="relative z-10 flex flex-wrap lg:flex-row flex-col gap-12 items-center">
+            <div class="relative z-10 flex flex-wrap lg:flex-row flex-col gap-12 items-start">
                 <div class="flex-1 p-4">
                     <h1 class="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
                         @if (highlightedPrefix()) {
@@ -56,9 +56,12 @@ export interface HeroButton {
                         </button>
                     }
                 </div>
-                <!-- Desktop image -->
-                <div class="hidden lg:block flex-1 text-center lg:text-right overflow-hidden">
-                    <img [src]="imageSrc()" [alt]="imageAlt()" class="w-full max-w-md lg:w-auto lg:max-w-xl mx-auto" />
+                <!-- Right column: projected content (e.g. newsletter) or desktop image -->
+                <div class="flex flex-1 flex-col justify-start text-left overflow-hidden min-w-0">
+                    <ng-content select="[heroRightColumn]" />
+                    @if (showImage()) {
+                        <img [src]="imageSrc()" [alt]="imageAlt()" class="hidden lg:block w-full max-w-md lg:w-auto lg:max-w-xl mx-auto" />
+                    }
                 </div>
             </div>
         </div>
@@ -74,4 +77,6 @@ export class HeroMarineWithButtonComponent {
     buttonText = input<string>();
     imageSrc = input.required<string>();
     imageAlt = input<string>('Hero image');
+    /** Gdy false, w prawej kolumnie nie pokazujemy obrazka (np. gdy jest ng-content). */
+    showImage = input<boolean>(true);
 }

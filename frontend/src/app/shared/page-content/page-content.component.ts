@@ -10,9 +10,9 @@ import { NewsletterComponent } from '../newsletter/newsletter.component';
         @if (title()) {
             <app-page-header [title]="title()!" [breadcrumbs]="breadcrumbs()" />
         }
-        <div class="py-8 flex flex-col gap-16">
+        <div class="pt-8 flex flex-col gap-16">
             <ng-content></ng-content>
-            <app-newsletter />
+            <app-newsletter [darkMode]="true" />
         </div>
     `
 })

@@ -1,13 +1,17 @@
 <div class="flex flex-col gap-16">
     <app-hero-marine-with-button
-    highlightedPrefix="Naturalne"
-    title="produkty weterynaryjne"
-    subtitle="Odkryj sprawdzone rozwiązania oparte na naturalnych składnikach. Prezentujemy przypadki kliniczne i praktyczne zastosowania wypracowane przez lata praktyki weterynaryjnej."
-    [features]="heroFeatures"
-    [buttons]="heroButtons"
-    imageSrc="https://fqjltiegiezfetthbags.supabase.co/storage/v1/render/image/public/block.images/blocks/hero/Illustrations.svg"
-    imageAlt="Naturalne produkty weterynaryjne"
-    />
+        highlightedPrefix="Naturalne"
+        title="produkty weterynaryjne"
+        subtitle="Odkryj sprawdzone rozwiązania oparte na naturalnych składnikach. Prezentujemy przypadki kliniczne i praktyczne zastosowania wypracowane przez lata praktyki weterynaryjnej."
+        [features]="heroFeatures"
+        [buttons]="heroButtons"
+        imageSrc="https://fqjltiegiezfetthbags.supabase.co/storage/v1/render/image/public/block.images/blocks/hero/Illustrations.svg"
+        imageAlt="Naturalne produkty weterynaryjne"
+        [showImage]="false">
+        <div heroRightColumn class="w-full lg:max-w-xl">
+            <app-newsletter />
+        </div>
+    </app-hero-marine-with-button>
     <app-last-3-articles
     [title]="articlesSectionTitle"
     [subtitle]="articlesSectionSubtitle" />

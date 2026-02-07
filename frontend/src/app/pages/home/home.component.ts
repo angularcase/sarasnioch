@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { HeroButton, HeroFeature, HeroMarineWithButtonComponent } from '../../shared/hero-marine-with-button/hero-marine-with-button.component';
 import { Last3ArticlesComponent } from '../../shared/last-3-articles/last-3-articles.component';
+import { NewsletterComponent } from '../../shared/newsletter/newsletter.component';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [HeroMarineWithButtonComponent, Last3ArticlesComponent],
+    imports: [HeroMarineWithButtonComponent, Last3ArticlesComponent, NewsletterComponent],
     templateUrl: './home.component.html'
 })
 export class HomeComponent {
