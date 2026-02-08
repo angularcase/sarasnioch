@@ -63,8 +63,8 @@ export interface ArticleBoxItem {
                 @for (item of articleItems(); track item.title) {
                     <app-atom-grey-box 
                         [title]="item.title" 
-                        [body]="item.body" 
                         [routerLink]="item.routerLink ?? null">
+                        <p slot="body" class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ item.body }}</p>
                         @if (item.animalCategories && item.animalCategories.length > 0) {
                             <div slot="top" class="flex flex-wrap gap-2 mb-3">
                                 @for (cat of item.animalCategories; track cat.slug) {

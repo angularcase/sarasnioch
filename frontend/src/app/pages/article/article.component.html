@@ -4,7 +4,9 @@
     } @else if (article(); as art) {
         <div class="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-6 md:gap-8">
             <div class="flex flex-col gap-6 order-1 md:order-1">
-                <app-atom-grey-box [title]="'Autor'" [body]="getAuthorDisplay(art)" />
+                <app-atom-grey-box [title]="'Autor'">
+                    <p slot="body" class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ getAuthorDisplay(art) }}</p>
+                </app-atom-grey-box>
             </div>
             <div class="flex flex-col gap-6 min-w-0 order-2 md:order-2">
                 <div class="text-sm text-surface-600 dark:text-surface-200">

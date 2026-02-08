@@ -9,6 +9,7 @@ export interface Manufacturer {
   documentId: string;
   name: string;
   slug: string;
+  website?: string;
 }
 
 export interface ProductImage {

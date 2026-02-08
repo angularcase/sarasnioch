@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, computed } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 @Component({
@@ -6,33 +6,31 @@ import { RouterLink } from '@angular/router';
     standalone: true,
     imports: [RouterLink],
     template: `
-        @if (routerLink()) {
-            <a [routerLink]="routerLink()!" 
-               [class]="'block p-6 rounded-xl border transition-colors ' + (useBackground() ? 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700 hover:bg-surface-100 dark:hover:bg-surface-700' : 'border-surface-100 dark:border-surface-700')">
-                <ng-content select="[slot=top]" />
-                <h5 class="text-surface-900 dark:text-surface-0 text-lg font-semibold leading-tight mb-3">{{ title() }}</h5>
-                <ng-content select="[slot=subtitle]" />
-                <p class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ body() }}</p>
-                <ng-content />
-                <ng-content select="[slot=bottom]" />
-            </a>
-        } @else {
-            <div [class]="'p-6 rounded-xl border ' + (useBackground() ? 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700' : 'border-surface-100 dark:border-surface-700')">
-                <ng-content select="[slot=top]" />
-                <h5 class="text-surface-900 dark:text-surface-0 text-lg font-semibold leading-tight mb-3">{{ title() }}</h5>
-                <ng-content select="[slot=subtitle]" />
-                @if (body()) {
-                    <p class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ body() }}</p>
-                }
-                <ng-content />
-                <ng-content select="[slot=bottom]" />
-            </div>
-        }
+        <div [class]="containerClasses()">
+            <ng-content select="[slot=top]" />
+            <h5 class="text-surface-900 dark:text-surface-0 text-lg font-semibold leading-tight mb-3">{{ title() }}</h5>
+            <ng-content select="[slot=subtitle]" />
+            <ng-content select="[slot=body]" />
+            <ng-content />
+            <ng-content select="[slot=bottom]" />
+            @if (routerLink()) {
+                <a [routerLink]="routerLink()!" class="absolute inset-0"></a>
+            }
+        </div>
     `
 })
 export class AtomGreyBoxComponent {
     title = input.required<string>();
-    body = input<string>('');
     routerLink = input<string | null>(null);
     useBackground = input<boolean>(true);
+
+    containerClasses = computed(() => {
+        const bg = this.useBackground()
+            ? 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700'
+            : 'border-surface-100 dark:border-surface-700';
+        const hover = this.routerLink()
+            ? ' hover:bg-surface-100 dark:hover:bg-surface-700 transition-colors cursor-pointer'
+            : '';
+        return `relative p-6 rounded-xl border ${bg}${hover}`;
+    });
 }

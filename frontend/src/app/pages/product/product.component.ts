@@ -47,6 +47,29 @@ export class ProductComponent implements OnInit {
         return '—';
     }
 
+    getManufacturerDisplayWithIcon(prod: Product): string {
+        const name = this.getManufacturerDisplay(prod);
+        const website = this.getManufacturerWebsite(prod);
+        
+        if (website) {
+            return `${name} <i class="pi pi-external-link text-sm ml-1"></i>`;
+        }
+        return name;
+    }
+
+    hasManufacturerWebsite(prod: Product): boolean {
+        return this.getManufacturerWebsite(prod) !== null;
+    }
+
+    getManufacturerWebsite(prod: Product): string | null {
+        if (prod.manufacturer) {
+            const man = prod.manufacturer as unknown as Record<string, unknown>;
+            const website = man['website'] as string | undefined;
+            return website?.trim() || null;
+        }
+        return null;
+    }
+
     getFirstImageUrl(prod: Product): string | null {
         if (prod.gallery && prod.gallery.length > 0) {
             return prod.gallery[0].url || null;
