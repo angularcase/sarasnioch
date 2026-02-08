@@ -1,29 +1,6 @@
 <app-page-content title="Lista artykułów" [breadcrumbs]="breadcrumbs()">
-    @if (loading()) {
-        <app-centered-loader label="Ładowanie artykułów..." />
-    } @else if (articles().length === 0) {
-        <p class="text-surface-600 dark:text-surface-300">Brak artykułów</p>
-    } @else {
-        <app-centered-grid-boxes
-            [title]="articlesSectionTitle"
-            [subtitle]="articlesSectionSubtitle"
-            [items]="articleItems()">
-            <app-atom-grey-box title="Filtry" [useBackground]="false">
-                <div class="flex flex-row flex-wrap gap-4">
-                    <div class="w-full md:w-auto flex-none">
-                        <app-animal-category-select
-                            [options]="animalCategories()"
-                            [selectedSlug]="selectedCategorySlug()"
-                            (selectedSlugChange)="onCategoryChange($event)" />
-                    </div>
-                    <div class="w-full md:w-auto flex-none">
-                        <app-product-select
-                            [options]="products()"
-                            [selectedSlug]="selectedProductSlug()"
-                            (selectedSlugChange)="onProductChange($event)" />
-                    </div>
-                </div>
-            </app-atom-grey-box>
-        </app-centered-grid-boxes>
-    }
+    <app-articles-centered-grid
+        [title]="articlesSectionTitle"
+        [subtitle]="articlesSectionSubtitle"
+        [hideFilters]="false" />
 </app-page-content>
