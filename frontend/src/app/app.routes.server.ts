@@ -1,9 +1,9 @@
 import { RenderMode, ServerRoute } from '@angular/ssr';
+import { environment } from '../environments/environment';
 
 async function getCategorySlugs(): Promise<Array<{ categorySlug: string }>> {
   try {
-    // Try to fetch categories from Strapi API
-    const response = await fetch('http://localhost:1337/api/animal-categories?fields[0]=slug');
+    const response = await fetch(`${environment.apiUrl}/animal-categories?fields[0]=slug`);
     if (!response.ok) {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
@@ -12,9 +12,39 @@ async function getCategorySlugs(): Promise<Array<{ categorySlug: string }>> {
       categorySlug: category.slug
     }));
   } catch (error) {
-    console.warn('Could not fetch animal categories for prerender, using fallback:', error);
-    // Fallback: return empty array or predefined slugs if API is not available during build
-    // You can customize this fallback list based on your known categories
+    console.warn('Could not fetch animal categories for prerender:', error);
+    return [];
+  }
+}
+
+async function getArticleSlugs(): Promise<Array<{ slug: string }>> {
+  try {
+    const response = await fetch(`${environment.apiUrl}/articles?fields[0]=slug`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch articles: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.data.map((article: { slug: string }) => ({
+      slug: article.slug
+    }));
+  } catch (error) {
+    console.warn('Could not fetch articles for prerender:', error);
+    return [];
+  }
+}
+
+async function getProductSlugs(): Promise<Array<{ slug: string }>> {
+  try {
+    const response = await fetch(`${environment.apiUrl}/products?fields[0]=slug`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch products: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data.data.map((product: { slug: string }) => ({
+      slug: product.slug
+    }));
+  } catch (error) {
+    console.warn('Could not fetch products for prerender:', error);
     return [];
   }
 }
@@ -24,6 +54,21 @@ export const serverRoutes: ServerRoute[] = [
     path: 'artykuly/:categorySlug',
     renderMode: RenderMode.Prerender,
     getPrerenderParams: getCategorySlugs
+  },
+  {
+    path: 'produkty/:categorySlug',
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: getCategorySlugs
+  },
+  {
+    path: 'artykul/:slug',
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: getArticleSlugs
+  },
+  {
+    path: 'produkt/:slug',
+    renderMode: RenderMode.Prerender,
+    getPrerenderParams: getProductSlugs
   },
   {
     path: '**',

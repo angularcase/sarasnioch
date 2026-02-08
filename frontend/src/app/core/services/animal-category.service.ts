@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface AnimalCategory {
   id: number;
@@ -28,7 +29,7 @@ export interface AnimalCategoriesResponse {
 })
 export class AnimalCategoryService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:1337/api/animal-categories';
+  private apiUrl = `${environment.apiUrl}/animal-categories`;
 
   getAnimalCategories(): Observable<AnimalCategoriesResponse> {
     return this.http.get<AnimalCategoriesResponse>(this.apiUrl, {

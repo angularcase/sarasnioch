@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AnimalCategory } from './animal-category.service';
+import { environment } from '../../../environments/environment';
 
 export interface Manufacturer {
   id: number;
@@ -53,7 +54,7 @@ export interface ProductsResponse {
 })
 export class ProductService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:1337/api/products';
+  private apiUrl = `${environment.apiUrl}/products`;
 
   getProducts(): Observable<ProductsResponse> {
     return this.http.get<ProductsResponse>(this.apiUrl, {

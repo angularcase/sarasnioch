@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 export interface Manufacturer {
   id: number;
@@ -29,7 +30,7 @@ export interface ManufacturersResponse {
 })
 export class ManufacturerService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:1337/api/manufacturers';
+  private apiUrl = `${environment.apiUrl}/manufacturers`;
 
   getManufacturers(): Observable<ManufacturersResponse> {
     return this.http.get<ManufacturersResponse>(this.apiUrl, {
