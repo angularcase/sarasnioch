@@ -28,6 +28,10 @@ export const routes: Routes = [
         component: ProductsComponent
     },
     {
+        path: 'produkty/:categorySlug',
+        component: ProductsComponent
+    },
+    {
         path: 'produkt/:slug',
         component: ProductComponent
     },

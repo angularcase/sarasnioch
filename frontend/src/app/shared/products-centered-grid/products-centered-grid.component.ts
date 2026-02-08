@@ -1,5 +1,7 @@
-import { Component, inject, input, signal, computed, OnInit } from '@angular/core';
+import { Component, inject, input, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CenteredGridBoxesComponent } from '../centered-grid-boxes/centered-grid-boxes.component';
 import { AtomGreyBoxComponent } from '../atom-grey-box/atom-grey-box.component';
 import { AnimalCategorySelectComponent } from '../animal-category-select/animal-category-select.component';
@@ -74,7 +76,7 @@ export interface ProductBoxItem {
         }
     `
 })
-export class ProductsCenteredGridComponent implements OnInit {
+export class ProductsCenteredGridComponent implements OnInit, OnDestroy {
     title = input.required<string>();
     subtitle = input.required<string>();
     productsLimit = input<number | null>(null);
@@ -83,6 +85,9 @@ export class ProductsCenteredGridComponent implements OnInit {
     private productService = inject(ProductService);
     private animalCategoryService = inject(AnimalCategoryService);
     private manufacturerService = inject(ManufacturerService);
+    private route = inject(ActivatedRoute);
+    private router = inject(Router);
+    private routeSubscription?: Subscription;
 
     products = signal<Product[]>([]);
     animalCategories = signal<AnimalCategory[]>([]);
@@ -129,8 +134,18 @@ export class ProductsCenteredGridComponent implements OnInit {
     });
 
     ngOnInit(): void {
-        // Load filters data if filters are visible
+        // Only handle route params if filters are visible
         if (!this.hideFilters()) {
+            // Read initial categorySlug from route
+            const slug = this.route.snapshot.paramMap.get('categorySlug');
+            this.selectedCategorySlug.set(slug);
+
+            // Subscribe to route param changes (for browser back/forward)
+            this.routeSubscription = this.route.paramMap.subscribe(params => {
+                const categorySlug = params.get('categorySlug');
+                this.selectedCategorySlug.set(categorySlug);
+            });
+
             this.loadAnimalCategories();
             this.loadManufacturers();
         }
@@ -138,8 +153,22 @@ export class ProductsCenteredGridComponent implements OnInit {
         this.loadProducts();
     }
 
+    ngOnDestroy(): void {
+        this.routeSubscription?.unsubscribe();
+    }
+
     onCategoryChange(slug: string | null): void {
-        this.selectedCategorySlug.set(slug);
+        // Update URL when user changes selection (only if filters are visible)
+        if (!this.hideFilters()) {
+            if (slug === null) {
+                this.router.navigate(['/produkty'], { replaceUrl: false });
+            } else {
+                this.router.navigate(['/produkty', slug], { replaceUrl: false });
+            }
+        } else {
+            // If filters are hidden, just update the signal for filtering
+            this.selectedCategorySlug.set(slug);
+        }
     }
 
     onManufacturerChange(slug: string | null): void {
