@@ -1,7 +1,7 @@
 import { Component, inject, signal, OnInit, computed } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProductService, Product } from '../../core/services/product.service';
+import { ProductService, Product, Leaflet } from '../../core/services/product.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
@@ -92,6 +92,14 @@ export class ProductComponent implements OnInit {
         // For now, return empty string - richtext conversion would need a library
         // Strapi should return HTML string when using populate or specific format
         return '';
+    }
+
+    hasLeaflets(prod: Product): boolean {
+        return !!(prod.leaflets && prod.leaflets.length > 0);
+    }
+
+    getLeaflets(prod: Product): Leaflet[] {
+        return prod.leaflets || [];
     }
 
     private loadProduct(slug: string): void {

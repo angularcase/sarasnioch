@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_leaflets",
+  "info": {
+    "displayName": "Leaflet",
+    "description": "Downloadable PDF leaflet with caption"
+  },
+  "attributes": {
+    "file": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["files"]
+    },
+    "caption": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

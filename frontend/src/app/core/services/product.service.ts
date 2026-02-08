@@ -16,6 +16,12 @@ export interface ProductImage {
   url: string;
 }
 
+export interface Leaflet {
+  id: number;
+  file: { url: string; name: string; mime: string };
+  caption: string;
+}
+
 export interface Product {
   id: number;
   documentId: string;
@@ -25,6 +31,7 @@ export interface Product {
   manufacturer?: Manufacturer;
   animalCategories?: AnimalCategory[];
   gallery?: ProductImage[];
+  leaflets?: Leaflet[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -68,7 +75,7 @@ export class ProductService {
 
   getProductBySlug(slug: string): Observable<ProductsResponse> {
     return this.http.get<ProductsResponse>(
-      `${this.apiUrl}?filters[slug][$eq]=${slug}&populate[0]=animalCategories&populate[1]=manufacturer&populate[2]=gallery`
+      `${this.apiUrl}?filters[slug][$eq]=${slug}&populate[0]=animalCategories&populate[1]=manufacturer&populate[2]=gallery&populate[3]=leaflets&populate[4]=leaflets.file`
     ).pipe(
       map((response) => {
         if (response.data?.length) {
@@ -137,6 +144,76 @@ export class ProductService {
         .filter((item): item is ProductImage => item !== null);
     };
 
+    const flattenLeaflets = (leaflets: unknown): Leaflet[] => {
+      if (!leaflets) {
+        return [];
+      }
+      
+      let arr: unknown[];
+      // Components can come as array directly or wrapped in data
+      if (Array.isArray(leaflets)) {
+        arr = leaflets;
+      } else {
+        const l = leaflets as { data?: unknown } | undefined;
+        if (l?.data) {
+          arr = Array.isArray(l.data) ? l.data : [l.data];
+        } else {
+          return [];
+        }
+      }
+
+      return arr
+        .map((item) => {
+          const rec = item as Record<string, unknown>;
+          
+          // Get caption (string field)
+          const caption = (rec['caption'] as string | undefined) || '';
+          
+          // Get file (media field)
+          let fileData: Record<string, unknown> | null = null;
+          const file = rec['file'];
+          
+          if (file) {
+            // File might be wrapped in { data: {...} }
+            const fileObj = file as { data?: unknown } | Record<string, unknown>;
+            if (fileObj['data']) {
+              fileData = fileObj['data'] as Record<string, unknown>;
+            } else if (typeof file === 'object' && file !== null) {
+              fileData = file as Record<string, unknown>;
+            }
+          }
+          
+          if (!fileData) {
+            return null;
+          }
+          
+          // Flatten file attributes
+          const fileAttrs = fileData['attributes'] as Record<string, unknown> | undefined;
+          const flatFile = fileAttrs ? { ...fileData, ...fileAttrs } : fileData;
+          delete flatFile['attributes'];
+          
+          // Get file URL
+          const fileUrl = flatFile['url'] as string | undefined;
+          if (!fileUrl) {
+            return null;
+          }
+          
+          const url = fileUrl.startsWith('http') 
+            ? fileUrl 
+            : `${this.apiUrl.replace('/api/products', '')}${fileUrl}`;
+          
+          const name = (flatFile['name'] as string | undefined) || '';
+          const mime = (flatFile['mime'] as string | undefined) || '';
+          
+          return {
+            id: (rec['id'] as number | undefined) || 0,
+            file: { url, name, mime },
+            caption
+          };
+        })
+        .filter((item): item is Leaflet => item !== null);
+    };
+
     const ac = flat['animalCategories'];
     if (ac) flat['animalCategories'] = flattenRelation(ac);
     
@@ -173,6 +250,12 @@ export class ProductService {
     if (gallery) {
       flat['gallery'] = flattenMedia(gallery);
     }
+    
+    const leaflets = flat['leaflets'];
+    if (leaflets) {
+      flat['leaflets'] = flattenLeaflets(leaflets);
+    }
+    
     return flat;
   }
 }

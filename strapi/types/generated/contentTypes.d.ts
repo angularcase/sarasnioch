@@ -598,6 +598,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.RichText;
     gallery: Schema.Attribute.Media<'images', true>;
+    leaflets: Schema.Attribute.Component<'shared.leaflet', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

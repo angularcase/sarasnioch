@@ -16,6 +16,25 @@
                         <p slot="body" class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ getManufacturerDisplay(prod) }}</p>
                     }
                 </app-atom-grey-box>
+                @if (hasLeaflets(prod)) {
+                    <div class="hidden md:block">
+                        <app-atom-grey-box [title]="'Do pobrania'">
+                            <div slot="body" class="flex flex-wrap gap-2">
+                                @for (leaflet of getLeaflets(prod); track leaflet.id) {
+                                    <a [href]="leaflet.file.url" target="_blank" [download]="leaflet.file.name"
+                                       class="inline-flex items-center gap-2 px-3 py-2 rounded-lg
+                                              bg-primary-50 dark:bg-primary-900/30
+                                              text-primary-700 dark:text-primary-200
+                                              hover:bg-primary-100 dark:hover:bg-primary-800/50
+                                              transition-colors text-sm font-medium">
+                                        <i class="pi pi-download text-sm"></i>
+                                        <span>{{ leaflet.caption }}</span>
+                                    </a>
+                                }
+                            </div>
+                        </app-atom-grey-box>
+                    </div>
+                }
                 @if (getFirstImageUrl(prod); as imageUrl) {
                     <app-atom-grey-box [title]="''">
                         <img [src]="imageUrl" [alt]="prod.name" class="w-full h-auto rounded-lg object-contain" />
@@ -30,6 +49,25 @@
                 </div>
                 @if (prod.description) {
                     <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="typeof prod.description === 'string' ? prod.description : ''"></div>
+                }
+                @if (hasLeaflets(prod)) {
+                    <div class="block md:hidden">
+                        <app-atom-grey-box [title]="'Do pobrania'">
+                            <div slot="body" class="flex flex-wrap gap-2">
+                                @for (leaflet of getLeaflets(prod); track leaflet.id) {
+                                    <a [href]="leaflet.file.url" target="_blank" [download]="leaflet.file.name"
+                                       class="inline-flex items-center gap-2 px-3 py-2 rounded-lg
+                                              bg-primary-50 dark:bg-primary-900/30
+                                              text-primary-700 dark:text-primary-200
+                                              hover:bg-primary-100 dark:hover:bg-primary-800/50
+                                              transition-colors text-sm font-medium">
+                                        <i class="pi pi-download text-sm"></i>
+                                        <span>{{ leaflet.caption }}</span>
+                                    </a>
+                                }
+                            </div>
+                        </app-atom-grey-box>
+                    </div>
                 }
             </div>
         </div>

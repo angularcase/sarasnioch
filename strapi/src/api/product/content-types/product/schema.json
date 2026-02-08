@@ -46,6 +46,11 @@
       "relation": "manyToMany",
       "target": "api::article.article",
       "inversedBy": "products"
+    },
+    "leaflets": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.leaflet"
     }
   }
 }
