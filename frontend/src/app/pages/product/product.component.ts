@@ -4,12 +4,13 @@ import { CommonModule } from '@angular/common';
 import { ProductService, Product, Leaflet } from '../../core/services/product.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
+import { AtomBadgeComponent } from '../../shared/atom-badge/atom-badge.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-product',
     standalone: true,
-    imports: [CommonModule, PageContentComponent, AtomGreyBoxComponent],
+    imports: [CommonModule, PageContentComponent, AtomGreyBoxComponent, AtomBadgeComponent],
     templateUrl: './product.component.html'
 })
 export class ProductComponent implements OnInit {

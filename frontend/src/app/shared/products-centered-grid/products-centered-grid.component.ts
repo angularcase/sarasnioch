@@ -1,9 +1,10 @@
 import { Component, inject, input, signal, computed, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CenteredGridBoxesComponent } from '../centered-grid-boxes/centered-grid-boxes.component';
 import { AtomGreyBoxComponent } from '../atom-grey-box/atom-grey-box.component';
+import { AtomBadgeComponent } from '../atom-badge/atom-badge.component';
 import { AnimalCategorySelectComponent } from '../animal-category-select/animal-category-select.component';
 import { ManufacturerSelectComponent } from '../manufacturer-select/manufacturer-select.component';
 import { CenteredLoaderComponent } from '../centered-loader/centered-loader.component';
@@ -23,8 +24,10 @@ export interface ProductBoxItem {
     standalone: true,
     imports: [
         CommonModule,
+        RouterLink,
         CenteredGridBoxesComponent,
         AtomGreyBoxComponent,
+        AtomBadgeComponent,
         AnimalCategorySelectComponent,
         ManufacturerSelectComponent,
         CenteredLoaderComponent
@@ -57,19 +60,20 @@ export interface ProductBoxItem {
                     </div>
                 }
                 @for (item of productItems(); track item.title) {
-                    <app-atom-grey-box 
-                        [title]="item.title" 
-                        [routerLink]="item.routerLink ?? null">
+                    <app-atom-grey-box [title]="item.title">
                         <p slot="body" class="text-surface-600 dark:text-surface-400 text-base leading-normal">{{ item.body }}</p>
                         @if (item.animalCategories && item.animalCategories.length > 0) {
                             <div slot="top" class="flex flex-wrap gap-2 mb-3">
                                 @for (cat of item.animalCategories; track cat.slug) {
-                                    <span class="px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-md">
-                                        {{ cat.name }}
-                                    </span>
+                                    <app-atom-badge variant="category" [label]="cat.name" [routerLink]="'/produkty/' + cat.slug" />
                                 }
                             </div>
                         }
+                        <div slot="buttons" class="mt-4">
+                            <a [routerLink]="item.routerLink!" class="inline-block px-4 py-2 rounded-lg bg-surface-700 text-white hover:bg-surface-800 dark:bg-surface-500 dark:hover:bg-surface-400 transition-colors text-sm font-medium">
+                                Więcej
+                            </a>
+                        </div>
                     </app-atom-grey-box>
                 }
             </app-centered-grid-boxes>

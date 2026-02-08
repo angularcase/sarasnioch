@@ -5,13 +5,14 @@ import { TagModule } from 'primeng/tag';
 import { ArticleService, Article } from '../../core/services/article.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
+import { AtomBadgeComponent } from '../../shared/atom-badge/atom-badge.component';
 import { GalleryComponent } from '../../shared/gallery/gallery.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-article',
     standalone: true,
-    imports: [CommonModule, TagModule, DatePipe, PageContentComponent, AtomGreyBoxComponent, GalleryComponent],
+    imports: [CommonModule, TagModule, DatePipe, PageContentComponent, AtomGreyBoxComponent, AtomBadgeComponent, GalleryComponent],
     templateUrl: './article.component.html'
 })
 export class ArticleComponent implements OnInit {
