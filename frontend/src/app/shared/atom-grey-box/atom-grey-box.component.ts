@@ -19,11 +19,17 @@ import { Component, input, computed } from '@angular/core';
 export class AtomGreyBoxComponent {
     title = input.required<string>();
     useBackground = input<boolean>(true);
+    variant = input<'default' | 'green'>('default');
 
     containerClasses = computed(() => {
-        const bg = this.useBackground()
-            ? 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700'
-            : 'border-surface-100 dark:border-surface-700';
+        let bg: string;
+        if (this.variant() === 'green') {
+            bg = 'bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800/40';
+        } else if (this.useBackground()) {
+            bg = 'bg-surface-50 dark:bg-surface-800 border-surface-100 dark:border-surface-700';
+        } else {
+            bg = 'border-surface-100 dark:border-surface-700';
+        }
         return `relative p-6 rounded-xl border ${bg}`;
     });
 }

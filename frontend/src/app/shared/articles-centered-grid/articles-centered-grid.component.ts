@@ -45,7 +45,7 @@ export interface ArticleBoxItem {
             <app-centered-grid-boxes [title]="title()" [subtitle]="subtitle()">
                 @if (!hideFilters()) {
                     <div slot="above" class="mb-6">
-                        <app-atom-grey-box title="Filtry" [useBackground]="false">
+                        <app-atom-grey-box title="Filtry" variant="green">
                             <div class="flex flex-row flex-wrap gap-4">
                                 <div class="w-full md:w-auto flex-none">
                                     <app-animal-category-select
