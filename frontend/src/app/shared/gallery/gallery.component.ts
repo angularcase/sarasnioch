@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
     imports: [CommonModule],
     template: `
         @if (images().length > 0) {
-            <div class="flex flex-col sm:flex-row gap-4">
+            <div class="flex flex-col sm:flex-row gap-4 w-full">
                 <div class="hidden sm:flex flex-col gap-4 lg:min-w-24">
                     @for (image of images(); track image; let i = $index) {
                         <img
@@ -23,10 +23,10 @@ import { CommonModule } from '@angular/common';
                         />
                     }
                 </div>
-                <div class="flex-1">
+                <div class="flex-1 min-w-0 max-w-full">
                     <img
                         [src]="images()[selectedImageIndex()]"
-                        class="w-full h-auto lg:max-h-[31.28rem] rounded-lg"
+                        class="w-full h-auto max-h-[31.28rem] max-w-full object-contain rounded-lg"
                         [alt]="'Gallery image ' + (selectedImageIndex() + 1)"
                     />
 

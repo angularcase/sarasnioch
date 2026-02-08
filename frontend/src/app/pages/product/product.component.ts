@@ -4,13 +4,12 @@ import { CommonModule } from '@angular/common';
 import { ProductService, Product } from '../../core/services/product.service';
 import { PageContentComponent } from '../../shared/page-content/page-content.component';
 import { AtomGreyBoxComponent } from '../../shared/atom-grey-box/atom-grey-box.component';
-import { GalleryComponent } from '../../shared/gallery/gallery.component';
 import { BreadcrumbItem } from '../../shared/page-header/page-header.component';
 
 @Component({
     selector: 'app-product',
     standalone: true,
-    imports: [CommonModule, PageContentComponent, AtomGreyBoxComponent, GalleryComponent],
+    imports: [CommonModule, PageContentComponent, AtomGreyBoxComponent],
     templateUrl: './product.component.html'
 })
 export class ProductComponent implements OnInit {
@@ -48,8 +47,11 @@ export class ProductComponent implements OnInit {
         return '—';
     }
 
-    getGalleryUrls(prod: Product): string[] {
-        return prod.gallery?.map(g => g.url).filter(Boolean) ?? [];
+    getFirstImageUrl(prod: Product): string | null {
+        if (prod.gallery && prod.gallery.length > 0) {
+            return prod.gallery[0].url || null;
+        }
+        return null;
     }
 
     getDescriptionHtml(prod: Product): string {
