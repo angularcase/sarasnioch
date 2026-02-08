@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AnimalCategory } from './animal-category.service';
 
 export interface Manufacturer {
   id: number;
@@ -14,7 +15,9 @@ export interface Product {
   documentId: string;
   name: string;
   slug: string;
+  description?: unknown;
   manufacturer?: Manufacturer;
+  animalCategories?: AnimalCategory[];
   createdAt?: string;
   updatedAt?: string;
 }
