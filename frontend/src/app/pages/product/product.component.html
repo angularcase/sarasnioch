@@ -1,0 +1,26 @@
+<app-page-content [title]="product()?.name ?? 'Produkt'" [breadcrumbs]="breadcrumbs()">
+    @if (loading()) {
+        <p class="text-surface-600 dark:text-surface-300">Pobieranie produktu...</p>
+    } @else if (product(); as prod) {
+        <div class="grid grid-cols-1 md:grid-cols-[40fr_60fr] gap-6 md:gap-8">
+            <div class="hidden md:block">
+                <app-atom-grey-box [title]="'Producent'" [body]="getManufacturerDisplay(prod)" />
+            </div>
+            <div class="flex flex-col gap-6 min-w-0">
+                <div class="flex flex-wrap gap-2">
+                    @for (cat of prod.animalCategories ?? []; track cat.slug) {
+                        <span class="px-2 py-1 text-xs font-medium bg-primary-100 dark:bg-primary-900 text-primary-800 dark:text-primary-200 rounded-md">{{ cat.name }}</span>
+                    }
+                </div>
+                @if (prod.description) {
+                    <div class="text-base text-surface-700 dark:text-surface-300 prose dark:prose-invert max-w-none" [innerHTML]="typeof prod.description === 'string' ? prod.description : ''"></div>
+                }
+                @if (prod.gallery && prod.gallery.length > 0) {
+                    <div class="mt-6">
+                        <app-gallery [images]="getGalleryUrls(prod)" />
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</app-page-content>
